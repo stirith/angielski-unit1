@@ -28,5 +28,5 @@ python3 -m http.server 8765
 
 ## Instalacja na iPhonie
 
-Aplikacja musi stać pod adresem HTTPS (np. GitHub Pages). Potem w Safari otwierasz adres →
+Adres: https://stirith.github.io/angielski-unit1/ → w Safari
 **Udostępnij → Do ekranu początkowego**. Działa offline. Po zmianie plików podbij `CACHE` w `sw.js`.
