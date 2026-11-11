@@ -137,6 +137,9 @@ const MASTERED_AFTER = 2;
 // Nowe słówka dziennie w planie „Dzisiaj”.
 const WORDS_PER_DAY = 10;
 
+// Próbny test w planie (wtorek przed sprawdzianem i dzień sprawdzianu). Na razie wyłączony – true przywraca.
+const MOCK_TEST = false;
+
 // ---------- czyste funkcje (testowalne bez przeglądarki) ----------
 
 function parseWords(text) {
@@ -430,10 +433,13 @@ function dayEntry(info, i) {
   if (old && (Object.keys(old.done).length || (old.cfg === cfg && i <= info.idx))) return old;
   let e;
   if (i >= info.totalDays) {
-    e = { steps: ['mock'], newKeys: [], reviewKeys: [] };
+    e = MOCK_TEST ? { steps: ['mock'], newKeys: [], reviewKeys: [] }
+      : { steps: ['mix'], newKeys: [], reviewKeys: shuffle(info.words).sort(weakFirst).slice(0, 15).map(keyOf) };
   } else if (i >= info.learnDays + info.mixDays) {
     const weak = info.words.filter(w => !isMastered(w)).sort(weakFirst).slice(0, 20);
-    e = { steps: weak.length ? ['weak', 'mock'] : ['mock'], newKeys: [], reviewKeys: weak.map(keyOf) };
+    if (MOCK_TEST) e = { steps: weak.length ? ['weak', 'mock'] : ['mock'], newKeys: [], reviewKeys: weak.map(keyOf) };
+    else if (weak.length) e = { steps: ['weak'], newKeys: [], reviewKeys: weak.map(keyOf) };
+    else e = { steps: ['mix'], newKeys: [], reviewKeys: shuffle(info.words).slice(0, 20).map(keyOf) };
   } else if (i >= info.learnDays) {
     // Powtórka mieszana: najpierw nieopanowane, resztę dobiera losowo; do tego do / play.
     const mix = shuffle(info.words).sort(weakFirst).slice(0, 15);
@@ -448,7 +454,7 @@ function dayEntry(info, i) {
     const steps = [];
     if (review.length) steps.push('review');
     if (fresh.length) steps.push('cards', 'newtest');
-    if (!steps.length) steps.push('mock');
+    if (!steps.length) steps.push(MOCK_TEST ? 'mock' : 'cards');
     e = { steps, newKeys: fresh.map(keyOf), reviewKeys: review.map(keyOf) };
   }
   Object.assign(e, { cfg, done: {}, day: i });
@@ -692,7 +698,7 @@ function viewSettings() {
         <label class="field"><span>Data testu</span><input type="date" data-date="testDate" value="${esc(s.testDate)}"></label>
       </div>
       <p class="hint">Codziennie ok. ${WORDS_PER_DAY} nowych słówek. Gdy się skończą, są powtórki mieszane.
-        Ostatnie 2 dni przed testem to powtórka całości i próbny test.
+        ${MOCK_TEST ? 'Ostatnie 2 dni przed testem to powtórka całości i próbny test.' : 'Ostatni dzień przed sprawdzianem to powtórka słówek, których jeszcze nie umiesz.'}
         Ustaw datę sprawdzianu, a plan sam się przeliczy.</p></section>
     <section><h2>Kierunek</h2>${seg('direction', [['pl-de', 'PL → EN'], ['de-pl', 'EN → PL'], ['mix', 'Mieszany']])}
       <p class="hint">Dotyczy fiszek i testu. Mieszany losuje kierunek przy każdym słówku.</p></section>
