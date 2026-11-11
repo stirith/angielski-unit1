@@ -121,7 +121,7 @@ const DEFAULT_SETTINGS = {
   requireArticle: false,
   speak: true,
   planStart: '2026-11-11',
-  testDate: '2026-11-25', // nauka do dnia przed testem
+  testDate: '2026-11-18', // sprawdzian w środę 18.11, nauka do wtorku 17.11 // nauka do dnia przed testem
 };
 
 const LABELS = {
@@ -268,6 +268,8 @@ function load() {
   if (!s || !Array.isArray(s.decks)) {
     return { decks: startDecks(), selected: [], settings: { ...DEFAULT_SETTINGS }, stats: {}, plan: { days: {} }, activity: {} };
   }
+  // Stara domyślna data (25.11) zapisana przed zmianą → właściwy termin sprawdzianu.
+  if (s.settings && s.settings.testDate === '2026-11-25') s.settings.testDate = DEFAULT_SETTINGS.testDate;
   return {
     decks: s.decks,
     selected: Array.isArray(s.selected) ? s.selected : [],

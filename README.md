@@ -9,7 +9,7 @@ Bez serwera i bez kont, wszystko w przeglądarce (`localStorage`).
 - Przy wpisywaniu wielkie litery, apostrof i kropki nie są błędem (`whats your name`, `PE`), po polsku brak ogonków też nie.
 - Zamiast rodzajników z wersji niemieckiej jest tryb **„do czy play?”** (do niebieski, play czerwony).
 - **Plan „Dzisiaj”**: po 10 nowych słówek dziennie od daty startu, potem powtórki i do/play, ostatnie 2 dni przed
-  sprawdzianem to powtórka i próbny test. Datę startu i sprawdzianu zmienisz w Ustawieniach (domyślnie 11.11 → 25.11.2026).
+  sprawdzianem to powtórka i próbny test. Datę startu i sprawdzianu zmienisz w Ustawieniach (domyślnie start 11.11, sprawdzian w środę 18.11.2026 – nauka do wtorku 17.11).
 - Wymowa: głos en-GB (🔊), tryb „Posłuchaj i wybierz”.
 - Pole `de` w kodzie oznacza słówko obce (tu: angielskie) – nazwa została z wersji niemieckiej.
 
